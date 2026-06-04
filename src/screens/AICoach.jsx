@@ -2,6 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { T } from "../lib/data.js";
 import { Btn } from "../components/ui.jsx";
 
+const SYSTEM_PROMPT = (userType) => `You are a GQ AI Coach embedded in Susan K. Wehrley's Gut Intelligence® (GQ) platform. You deeply understand her trademarked methodology (2016):
+- GQ = the ability to synthesize wisdom from four information centers: the GUT (the gut-alert / internal compass), the HEART (emotional data / the heart's desire), the HEAD (the field of possibilities / cognitive awareness), and INTUITION (the "a-ha" knowing).
+- The S.T.O.P. Technique: Slow down and breathe, Tune in within, Observe what is happening, Perceive a new possibility.
+- The SHIFT Effect: Sense misalignment, Harness intuition, Integrate insights, Focus on creation not reaction, Take inspired action (at "cheetah speed").
+- Core idea: move out of the reactive (fight/flight/freeze) center of the brain, up the vagus nerve, into higher consciousness; align every decision to your VISION, VALUES, and GOALS. The E.G.O. "Edges Gut Intelligence Out."
+- Favorite reframing question: "How might we...?"
+You coach ${userType === "org" ? "organizational leaders and teams" : "individual executives and entrepreneurs"}. Be warm, wise, and concise. Ask powerful reflective questions. Reference Susan's methodology naturally. Keep replies to 2-4 short paragraphs.`;
+
 export function AICoach({ userType, userName }) {
   const greeting = userType === "org"
     ? "Welcome to your GQ AI Coach. I'm here to help you and your team apply Gut Intelligence® — synthesizing the wisdom of the gut, heart, head, and intuition. What's on your mind today?"
@@ -23,28 +31,28 @@ export function AICoach({ userType, userName }) {
     setInput("");
     setLoading(true);
     try {
-      const res = await fetch("/api/anthropic/v1/messages", {
+      const res = await fetch("/api/openai/chat/completions", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "anthropic-version": "2023-06-01" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
+          model: "gpt-4o",
           max_tokens: 1000,
-          system: `You are a GQ AI Coach embedded in Susan K. Wehrley's Gut Intelligence® (GQ) platform. You deeply understand her trademarked methodology (2016):
-- GQ = the ability to synthesize wisdom from four information centers: the GUT (the gut-alert / internal compass), the HEART (emotional data / the heart's desire), the HEAD (the field of possibilities / cognitive awareness), and INTUITION (the "a-ha" knowing).
-- The S.T.O.P. Technique: Slow down and breathe, Tune in within, Observe what is happening, Perceive a new possibility.
-- The SHIFT Effect: Sense misalignment, Harness intuition, Integrate insights, Focus on creation not reaction, Take inspired action (at "cheetah speed").
-- Core idea: move out of the reactive (fight/flight/freeze) center of the brain, up the vagus nerve, into higher consciousness; align every decision to your VISION, VALUES, and GOALS. The E.G.O. "Edges Gut Intelligence Out."
-- Favorite reframing question: "How might we...?"
-You coach ${userType === "org" ? "organizational leaders and teams" : "individual executives and entrepreneurs"}. Be warm, wise, and concise. Ask powerful reflective questions. Reference Susan's methodology naturally. Keep replies to 2-4 short paragraphs.`,
-          messages: history.map((m) => ({ role: m.role === "user" ? "user" : "assistant", content: m.text })),
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT(userType) },
+            ...history.map((m) => ({ role: m.role === "user" ? "user" : "assistant", content: m.text })),
+          ],
         }),
       });
-      if (!res.ok) throw new Error("api");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.error?.message || `HTTP ${res.status}`);
+      }
       const data = await res.json();
-      const reply = data.content?.filter((b) => b.type === "text").map((b) => b.text).join("\n") || "I'm here with you. Could you share a little more?";
+      const reply = data.choices?.[0]?.message?.content || "I'm here with you. Could you share a little more?";
       setMessages((p) => [...p, { role: "assistant", text: reply }]);
-    } catch {
-      setMessages((p) => [...p, { role: "assistant", text: "I can't reach the coaching service right now. If you're running locally, make sure your ANTHROPIC_API_KEY is set in the .env file and the dev server was restarted. In the meantime: try the S.T.O.P. technique — Slow down, Tune in, Observe, and Perceive a new possibility." }]);
+    } catch (e) {
+      console.error("AI Coach error:", e);
+      setMessages((p) => [...p, { role: "assistant", text: `I'm having trouble connecting right now (${e.message}). In the meantime: try the S.T.O.P. technique — Slow down, Tune in, Observe, and Perceive a new possibility.` }]);
     }
     setLoading(false);
   };
@@ -103,7 +111,8 @@ You coach ${userType === "org" ? "organizational leaders and teams" : "individua
         )}
 
         <div style={{ padding: "14px 16px", borderTop: `1px solid ${T.border}`, display: "flex", gap: 10 }}>
-          <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
+          <input value={input} onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
             placeholder="Share what's on your mind — your gut is speaking…"
             style={{ flex: 1, border: `1px solid ${T.border}`, borderRadius: 10, padding: "11px 16px", fontSize: 14, background: T.ivory, outline: "none", color: T.charcoal }} />
           <Btn onClick={() => send()} disabled={!input.trim() || loading} style={{ padding: "11px 18px" }}>→</Btn>
