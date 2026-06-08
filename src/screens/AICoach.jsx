@@ -97,7 +97,7 @@ export function AICoach({ userType, userName }) {
 
       {keyMissing && (
         <div style={{ background: "#FBEAE8", border: "1px solid #C0392B", borderRadius: 10, padding: "12px 16px", marginBottom: 12, fontSize: 13, color: "#C0392B" }}>
-          ⚠️ <strong>API key not found.</strong> Add <code>VITE_OPENAI_API_KEY=sk-proj-...</code> to your <code>.env</code> file and restart the dev server.
+          ️ <strong>API key not found.</strong> Add <code>VITE_OPENAI_API_KEY=sk-proj-...</code> to your <code>.env</code> file and restart the dev server.
         </div>
       )}
 
@@ -120,7 +120,7 @@ export function AICoach({ userType, userName }) {
           {messages.map((m, i) => (
             <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", flexDirection: m.role === "user" ? "row-reverse" : "row" }}>
               {m.role === "assistant" && (
-                <div style={{ width: 32, height: 32, background: T.green, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, flexShrink: 0 }}>⚡</div>
+                <div style={{ width: 32, height: 32, background: T.green, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: T.gold, flexShrink: 0, letterSpacing: "-0.02em" }}>GQ</div>
               )}
               <div style={{ maxWidth: "76%", background: m.role === "user" ? T.green : T.ivory, borderRadius: m.role === "user" ? "14px 14px 4px 14px" : "14px 14px 14px 4px", padding: "12px 16px", border: m.role === "assistant" ? `1px solid ${T.border}` : "none" }}>
                 <p style={{ fontSize: 14, color: m.role === "user" ? T.white : T.charcoal, lineHeight: 1.7, whiteSpace: "pre-wrap" }}>{m.text}</p>
@@ -129,7 +129,7 @@ export function AICoach({ userType, userName }) {
           ))}
           {loading && (
             <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-              <div style={{ width: 32, height: 32, background: T.green, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>⚡</div>
+              <div style={{ width: 32, height: 32, background: T.green, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}></div>
               <div style={{ background: T.ivory, borderRadius: "14px 14px 14px 4px", padding: "14px 18px", border: `1px solid ${T.border}` }}>
                 <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
                   {[0, 1, 2].map((j) => (

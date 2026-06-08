@@ -3,25 +3,25 @@ import { T, GQ_CENTERS, STOP_TECHNIQUE, SHIFT_EFFECT, BOOKS, ARTICLES, PROGRAMS,
 import { GQRing, Badge, ProgressBar, StatCard, Card, Btn, Modal } from "../components/ui.jsx";
 import { gqBand, orgGQBand, ORG_DIMENSIONS } from "../lib/gq.js";
 
-const matIcon = (t) => (t === "video" ? "🎬" : t === "pdf" ? "📄" : "🎧");
+const matIcon = (t) => (t === "video" ? "Video" : t === "pdf" ? "PDF" : "Audio");
 
-// ════════════ ADMIN ════════════
+//  ADMIN 
 export function AdminOverview() {
   return (
     <div>
-      <Header title="Welcome back, Susan 👋" sub="Your Gut Intelligence® platform at a glance" />
+      <Header title="Welcome back, Susan " sub="Your Gut Intelligence® platform at a glance" />
       <Row>
-        <StatCard label="Organizations" value="4" sub="2 enterprise licenses" icon="🏢" />
-        <StatCard label="Individuals" value="147" sub="+12 this month" icon="👤" />
-        <StatCard label="Avg GQ Score" value="76" sub="↑ 4 pts this quarter" icon="⚡" />
-        <StatCard label="Certifications" value="38" sub="issued total" icon="🎓" />
+        <StatCard label="Organizations" value="4" sub="2 enterprise licenses" icon="" />
+        <StatCard label="Individuals" value="147" sub="+12 this month" icon="" />
+        <StatCard label="Avg GQ Score" value="76" sub="↑ 4 pts this quarter" icon="" />
+        <StatCard label="Certifications" value="38" sub="issued total" icon="" />
       </Row>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 16 }}>
         <Card>
           <H3>Top Performing Organizations</H3>
           {ORGS.map((o) => (
             <div key={o.id} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
-              <Avatar text="🏢" />
+              <Avatar text="" />
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
                   <span style={{ fontSize: 13, fontWeight: 500 }}>{o.name}</span>
@@ -35,11 +35,11 @@ export function AdminOverview() {
         <Card>
           <H3>Recent Activity</H3>
           {[
-            { t: "Alex Rivera completed GQ Practitioner (L2)", time: "2h ago", icon: "🎓" },
-            { t: "Harley-Davidson team logged 5 new sessions", time: "4h ago", icon: "📊" },
-            { t: "New material: 'The Gut-Brain Axis' video", time: "Yesterday", icon: "🎬" },
-            { t: "Lisa Fontaine reached Cheetah — Self-Mastery", time: "2d ago", icon: "⭐" },
-            { t: "GMR Marketing org score improved +8", time: "3d ago", icon: "📈" },
+            { t: "Alex Rivera completed GQ Practitioner (L2)", time: "2h ago", icon: "" },
+            { t: "Harley-Davidson team logged 5 new sessions", time: "4h ago", icon: "" },
+            { t: "New material: 'The Gut-Brain Axis' video", time: "Yesterday", icon: "" },
+            { t: "Lisa Fontaine reached Cheetah — Self-Mastery", time: "2d ago", icon: "" },
+            { t: "GMR Marketing org score improved +8", time: "3d ago", icon: "" },
           ].map((a, i) => (
             <div key={i} style={{ display: "flex", gap: 10, padding: "10px 0", borderBottom: i < 4 ? `1px solid ${T.border}` : "none" }}>
               <span style={{ fontSize: 16 }}>{a.icon}</span>
@@ -66,7 +66,7 @@ export function AdminOrgs({ toast }) {
             style={{ background: T.white, border: `1.5px solid ${sel === o.id ? T.gold : T.border}`, borderRadius: 14, padding: "20px 22px", cursor: "pointer" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 14 }}>
               <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                <Avatar text="🏢" size={40} />
+                <Avatar text="" size={40} />
                 <div><p style={{ fontWeight: 600, fontSize: 15 }}>{o.name}</p><p style={{ fontSize: 11, color: T.muted }}>{o.users} users · Joined {o.joined}</p></div>
               </div>
               <Badge label={o.license} color={T.green} bg={T.goldPale} />
@@ -130,7 +130,7 @@ export function AdminMaterials({ toast }) {
       </div>
       {uploading && (
         <div style={{ background: T.white, border: `1.5px dashed ${T.gold}`, borderRadius: 14, padding: "32px", textAlign: "center", marginBottom: 20 }}>
-          <div style={{ fontSize: 40, marginBottom: 12 }}>📤</div>
+          <div style={{ fontSize: 40, marginBottom: 12 }}></div>
           <p style={{ fontWeight: 600, color: T.green, marginBottom: 6 }}>Drop files here or pick a type to upload</p>
           <p style={{ fontSize: 13, color: T.muted, marginBottom: 16 }}>Supports MP4, PDF, MP3, DOCX</p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
@@ -167,10 +167,10 @@ export function AdminAnalytics() {
     <div>
       <Header title="Analytics" sub="Platform-wide performance metrics and insights" />
       <Row>
-        <StatCard label="Total Sessions" value="1,284" sub="this quarter" icon="🧠" />
-        <StatCard label="Completion Rate" value="78%" sub="↑ 6% vs last Q" icon="✅" />
-        <StatCard label="Avg Sessions/User" value="8.7" sub="target: 10" icon="🔄" />
-        <StatCard label="NPS" value="72" sub="excellent range" icon="⭐" />
+        <StatCard label="Total Sessions" value="1,284" sub="this quarter" icon="" />
+        <StatCard label="Completion Rate" value="78%" sub="↑ 6% vs last Q" icon="" />
+        <StatCard label="Avg Sessions/User" value="8.7" sub="target: 10" icon="" />
+        <StatCard label="NPS" value="72" sub="excellent range" icon="" />
       </Row>
       <Card style={{ marginTop: 16 }}>
         <H3>GQ Score Distribution — All Users</H3>
@@ -200,7 +200,7 @@ export function AdminAnalytics() {
   );
 }
 
-// ════════════ ORG ════════════
+//  ORG 
 export function OrgDashboard({ gq, orgGq, goTo }) {
   const orgScore = orgGq?.overall ?? null;
   const orgBand = orgScore !== null ? orgGQBand(orgScore) : null;
@@ -209,16 +209,16 @@ export function OrgDashboard({ gq, orgGq, goTo }) {
     <div>
       <Header title="Organization Dashboard" sub="Team GQ performance overview" />
       <Row>
-        <StatCard label="Team Members" value="42" sub="3 pending invites" icon="👥" />
-        <StatCard label="Team Avg GQ" value={gq?.overall ?? "—"} sub="individual assessments" icon="⚡" />
-        <StatCard label="Sessions This Week" value="18" sub="across all members" icon="🧠" />
-        <StatCard label="Certified" value="9" sub="21% of team" icon="🎓" />
+        <StatCard label="Team Members" value="42" sub="3 pending invites" icon="" />
+        <StatCard label="Team Avg GQ" value={gq?.overall ?? "—"} sub="individual assessments" icon="" />
+        <StatCard label="Sessions This Week" value="18" sub="across all members" icon="" />
+        <StatCard label="Certified" value="9" sub="21% of team" icon="" />
       </Row>
 
       {/* Org GQ Assessment CTA or results */}
       {!orgGq ? (
         <Card style={{ marginTop: 16, display: "flex", gap: 24, alignItems: "center", background: `linear-gradient(135deg,${T.green},${T.greenMid})`, border: "none" }}>
-          <div style={{ fontSize: 48 }}>🏢</div>
+          <div style={{ fontSize: 48 }}></div>
           <div style={{ flex: 1 }}>
             <p style={{ fontSize: 12, color: T.goldLight, fontWeight: 600, letterSpacing: "0.06em", marginBottom: 4 }}>ORGANIZATIONAL GQ ASSESSMENT</p>
             <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, color: T.white, marginBottom: 8 }}>Measure your organization's Gut Intelligence®</h3>
@@ -271,7 +271,7 @@ export function OrgDashboard({ gq, orgGq, goTo }) {
               </div>
               <ProgressBar pct={m.gqScore} />
             </div>
-            {m.certified && <span style={{ fontSize: 14 }}>🎓</span>}
+            {m.certified && <span style={{ fontSize: 14 }}></span>}
           </div>
         ))}
       </Card>
@@ -279,22 +279,22 @@ export function OrgDashboard({ gq, orgGq, goTo }) {
   );
 }
 
-// ════════════ INDIVIDUAL ════════════
+//  INDIVIDUAL 
 export function IndDashboard({ gq, userName, goTo }) {
   const score = gq?.overall ?? 0;
   const band = gqBand(score);
   const dims = [
-    { label: "Gut-Alert", score: gq?.byCenter?.gut ?? 0, icon: "🧭" },
-    { label: "Heart's Desire", score: gq?.byCenter?.heart ?? 0, icon: "💚" },
-    { label: "Field of Possibilities", score: gq?.byCenter?.head ?? 0, icon: "🧠" },
-    { label: "A-ha Knowing", score: gq?.byCenter?.intuition ?? 0, icon: "✨" },
+    { label: "Gut-Alert", score: gq?.byCenter?.gut ?? 0, icon: "" },
+    { label: "Heart's Desire", score: gq?.byCenter?.heart ?? 0, icon: "" },
+    { label: "Field of Possibilities", score: gq?.byCenter?.head ?? 0, icon: "" },
+    { label: "A-ha Knowing", score: gq?.byCenter?.intuition ?? 0, icon: "" },
   ];
   return (
     <div>
       <Header title="Your GQ Journey" sub={`${userName?.split(" ")[0] || "Your"} — personal growth dashboard`} />
       {score === 0 ? (
         <Card style={{ textAlign: "center", padding: "40px" }}>
-          <div style={{ fontSize: 40, marginBottom: 12 }}>⚡</div>
+          <div style={{ fontSize: 40, marginBottom: 12 }}></div>
           <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, color: T.green, marginBottom: 8 }}>Discover your Gut Intelligence® score</h3>
           <p style={{ fontSize: 14, color: T.muted, maxWidth: 420, margin: "0 auto 20px", lineHeight: 1.6 }}>Take the 8-question assessment across your four information centers to reveal your GQ.</p>
           <Btn onClick={() => goTo("assessment")}>Take the Assessment →</Btn>
@@ -356,7 +356,7 @@ export function IndJournal({ toast }) {
       <div style={{ marginTop: 16 }}>
         {entries.map((e, i) => (
           <Card key={i} style={{ marginBottom: 12 }}>
-            <p style={{ fontSize: 11, color: T.gold, fontWeight: 600, marginBottom: 8 }}>📅 {e.date}</p>
+            <p style={{ fontSize: 11, color: T.gold, fontWeight: 600, marginBottom: 8 }}> {e.date}</p>
             <p style={{ fontSize: 14, lineHeight: 1.7 }}>{e.text}</p>
           </Card>
         ))}
@@ -365,7 +365,7 @@ export function IndJournal({ toast }) {
   );
 }
 
-// ════════════ SHARED ════════════
+//  SHARED 
 export function GQScoreView({ userType, gq, goTo }) {
   const score = gq?.overall ?? (userType === "org" ? 74 : 0);
   if (userType !== "org" && !gq) {
@@ -373,7 +373,7 @@ export function GQScoreView({ userType, gq, goTo }) {
       <div>
         <Header title="My GQ Score" sub="Your personal Gut Intelligence® assessment" />
         <Card style={{ textAlign: "center", padding: "40px" }}>
-          <div style={{ fontSize: 40, marginBottom: 12 }}>⚡</div>
+          <div style={{ fontSize: 40, marginBottom: 12 }}></div>
           <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 20, color: T.green, marginBottom: 8 }}>You haven't taken the assessment yet</h3>
           <Btn onClick={() => goTo("assessment")}>Take the Assessment →</Btn>
         </Card>
@@ -457,14 +457,14 @@ export function LibraryView({ toast }) {
             <div style={{ background: T.green, borderRadius: 12, height: 200, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: 16, gap: 10 }}>
               <div style={{ fontSize: 48 }}>{matIcon(active.type)}</div>
               {active.type !== "pdf" ? (
-                <button onClick={() => toast("Playback started (demo)")} style={{ width: 56, height: 56, borderRadius: "50%", background: T.gold, border: "none", color: T.white, fontSize: 22, cursor: "pointer" }}>▶</button>
+                <button onClick={() => toast("Playback started (demo)")} style={{ width: 56, height: 56, borderRadius: "50%", background: T.gold, border: "none", color: T.white, fontSize: 22, cursor: "pointer" }}></button>
               ) : (
                 <p style={{ color: "rgba(255,255,255,0.8)", fontSize: 13 }}>{active.pages} pages</p>
               )}
             </div>
             <p style={{ fontSize: 14, color: T.charcoal, lineHeight: 1.7, marginBottom: 16 }}>{active.desc}</p>
             <div style={{ display: "flex", gap: 10 }}>
-              <Btn onClick={() => toast(active.type === "pdf" ? "Opening reader…" : "Playback started (demo)")}>{active.type === "pdf" ? "Open Reader" : "▶ Play"}</Btn>
+              <Btn onClick={() => toast(active.type === "pdf" ? "Opening reader…" : "Playback started (demo)")}>{active.type === "pdf" ? "Open Reader" : " Play"}</Btn>
               <Btn variant="secondary" onClick={() => toast("Added to your saved list")}>Save for Later</Btn>
             </div>
           </div>
@@ -489,7 +489,7 @@ export function CertifyView({ gq, toast }) {
           return (
             <div key={i} style={{ background: T.white, border: `1.5px solid ${completed ? T.gold : status === "In Progress" ? T.greenLight : T.border}`, borderRadius: 16, padding: "24px", opacity: locked ? 0.7 : 1 }}>
               <div style={{ display: "flex", gap: 16 }}>
-                <div style={{ fontSize: 40 }}>{c.badge}</div>
+                <div style={{ fontSize: 40 }}></div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
                     <div><p style={{ fontSize: 11, color: T.gold, fontWeight: 600 }}>{c.level}</p><h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, color: T.green }}>{c.title}</h3></div>
@@ -497,9 +497,9 @@ export function CertifyView({ gq, toast }) {
                   </div>
                   <p style={{ fontSize: 13, color: T.muted, marginBottom: 14, lineHeight: 1.5 }}>{c.desc} · {c.modules} modules · Requires GQ ≥ {c.gqReq}</p>
                   {!locked && (<><div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}><span style={{ fontSize: 12, color: T.muted }}>Progress</span><span style={{ fontSize: 12, fontWeight: 600, color: T.green }}>{prog}%</span></div><ProgressBar pct={prog} color={completed ? T.gold : T.greenLight} /></>)}
-                  {locked && <p style={{ fontSize: 12, color: T.muted }}>🔒 Reach GQ {c.gqReq} to unlock this level</p>}
+                  {locked && <p style={{ fontSize: 12, color: T.muted }}> Reach GQ {c.gqReq} to unlock this level</p>}
                   {status === "In Progress" && <Btn style={{ marginTop: 14 }} onClick={() => toast("Resuming your certification modules…")}>Continue Learning →</Btn>}
-                  {completed && <Btn variant="secondary" style={{ marginTop: 14 }} onClick={() => toast("Certificate downloaded (demo)")}>Download Certificate 📜</Btn>}
+                  {completed && <Btn variant="secondary" style={{ marginTop: 14 }} onClick={() => toast("Certificate downloaded (demo)")}>Download Certificate </Btn>}
                 </div>
               </div>
             </div>
@@ -518,7 +518,7 @@ export function BooksView({ toast }) {
         {BOOKS.map((b, i) => (
           <Card key={i} style={{ display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
-              <div style={{ width: 44, height: 56, background: `linear-gradient(135deg,${T.green},${T.greenLight})`, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📕</div>
+              <div style={{ width: 44, height: 56, background: `linear-gradient(135deg,${T.green},${T.greenLight})`, borderRadius: 6, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}></div>
               <Badge label={b.tag} color={T.green} bg={T.goldPale} />
             </div>
             <p style={{ fontSize: 15, fontWeight: 600, marginBottom: 6 }}>{b.title}</p>
@@ -573,7 +573,7 @@ export function ProgramsView({ toast }) {
   );
 }
 
-// ─── small helpers ───
+//  small helpers 
 const Header = ({ title, sub, inline }) => (
   <div style={{ marginBottom: inline ? 0 : 24 }}>
     <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, color: T.green, marginBottom: 4 }}>{title}</h1>

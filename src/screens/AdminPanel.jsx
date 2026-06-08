@@ -4,7 +4,7 @@ import { getAllUsers, addUserByAdmin, addOrgByAdmin, updateUser, deleteUser, get
 import { gqBand, orgGQBand, ORG_DIMENSIONS } from "../lib/gq.js";
 import { GQRing, Badge, ProgressBar, StatCard, Card, Btn, Modal } from "../components/ui.jsx";
 
-// ─── helpers ────────────────────────────────────────────────
+//  helpers 
 const T2 = { ...T };
 const fmtDate = (ts) => ts ? new Date(ts).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "—";
 const initials = (name = "") => name.split(" ").map((n) => n[0]).join("").slice(0, 2).toUpperCase();
@@ -30,7 +30,7 @@ function useLiveData() {
   return { individuals, orgUsers, rawUsers, refresh };
 }
 
-// ─── field component ───────────────────────────────────────
+//  field component 
 function Field({ label, value, onChange, type = "text", placeholder, required, options }) {
   const base = { width: "100%", border: `1px solid ${T.border}`, borderRadius: 9, padding: "10px 13px", fontSize: 13, background: T.ivory, outline: "none", color: T.charcoal, fontFamily: "'DM Sans',sans-serif" };
   return (
@@ -52,7 +52,7 @@ function Field({ label, value, onChange, type = "text", placeholder, required, o
   );
 }
 
-// ─── Add Individual Modal ──────────────────────────────────
+//  Add Individual Modal 
 function AddIndividualModal({ open, onClose, onSaved, toast }) {
   const blank = { name: "", email: "", jobTitle: "", org: "", notes: "" };
   const [form, setForm] = useState(blank);
@@ -66,7 +66,7 @@ function AddIndividualModal({ open, onClose, onSaved, toast }) {
       const res = addUserByAdmin({ ...form, role: "ind" });
       setSaving(false);
       if (res.error) { setErr(res.error); return; }
-      toast(`✓ ${form.name} added — temp password: Welcome1!`);
+      toast(` ${form.name} added — temp password: Welcome1!`);
       setForm(blank);
       onSaved();
       onClose();
@@ -96,7 +96,7 @@ function AddIndividualModal({ open, onClose, onSaved, toast }) {
   );
 }
 
-// ─── Add Organization Modal ────────────────────────────────
+//  Add Organization Modal 
 function AddOrgModal({ open, onClose, onSaved, toast }) {
   const blank = { orgName: "", adminName: "", adminEmail: "", license: "Starter", notes: "" };
   const [form, setForm] = useState(blank);
@@ -110,7 +110,7 @@ function AddOrgModal({ open, onClose, onSaved, toast }) {
       const res = addOrgByAdmin(form);
       setSaving(false);
       if (res.error) { setErr(res.error); return; }
-      toast(`✓ ${form.orgName} added — temp password: Welcome1!`);
+      toast(` ${form.orgName} added — temp password: Welcome1!`);
       setForm(blank);
       onSaved();
       onClose();
@@ -141,7 +141,7 @@ function AddOrgModal({ open, onClose, onSaved, toast }) {
   );
 }
 
-// ─── Individual detail drawer ──────────────────────────────
+//  Individual detail drawer 
 function IndividualDrawer({ user, open, onClose, onSaved, toast }) {
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({});
@@ -189,7 +189,7 @@ function IndividualDrawer({ user, open, onClose, onSaved, toast }) {
           </div>
           {user.gq?.byCenter && (
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-              {[["🧭 Gut", "gut"], ["💚 Heart", "heart"], ["🧠 Head", "head"], ["✨ Intuition", "intuition"]].map(([lbl, k]) => (
+              {[[" Gut", "gut"], [" Heart", "heart"], [" Head", "head"], [" Intuition", "intuition"]].map(([lbl, k]) => (
                 <div key={k}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 3 }}>
                     <span style={{ fontSize: 11, color: T.muted }}>{lbl}</span>
@@ -244,7 +244,7 @@ function IndividualDrawer({ user, open, onClose, onSaved, toast }) {
   );
 }
 
-// ─── Org detail drawer ─────────────────────────────────────
+//  Org detail drawer 
 function OrgDrawer({ org, open, onClose, toast }) {
   if (!org) return null;
   const score = org.gq?.overall ?? org.gqAvg ?? null;
@@ -254,7 +254,7 @@ function OrgDrawer({ org, open, onClose, toast }) {
     <Modal open={open} onClose={onClose} title="Organization Profile" width={580}>
       {/* Hero */}
       <div style={{ background: `linear-gradient(135deg,${T.green},${T.greenMid})`, borderRadius: 12, padding: "20px", marginBottom: 20, display: "flex", gap: 16, alignItems: "center" }}>
-        <div style={{ width: 52, height: 52, borderRadius: 12, background: T.gold, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flexShrink: 0 }}>🏢</div>
+        <div style={{ width: 52, height: 52, borderRadius: 12, background: T.gold, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, flexShrink: 0 }}></div>
         <div style={{ flex: 1 }}>
           <p style={{ fontWeight: 700, fontSize: 18, color: T.white }}>{org.name || org.org}</p>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", marginTop: 2 }}>{org.license || "Starter"} license · {org.users || org.members?.length || 0} users</p>
@@ -322,9 +322,9 @@ function OrgDrawer({ org, open, onClose, toast }) {
   );
 }
 
-// ════════════════════════════════════════════════════════════
+// 
 // MAIN ADMIN PANEL — tabs: Overview · Organizations · Individuals · Assessments · Materials · Analytics · Settings
-// ════════════════════════════════════════════════════════════
+// 
 export function AdminPanel({ toast }) {
   const [tab, setTab] = useState("overview");
   const { individuals, orgUsers, refresh } = useLiveData();
@@ -337,9 +337,9 @@ export function AdminPanel({ toast }) {
   const [indFilter, setIndFilter] = useState("all"); // all | assessed | not-assessed | certified
 
   const TABS = [
-    ["overview", "Overview", "📊"], ["orgs", "Organizations", "🏢"],
-    ["individuals", "Individuals", "👤"], ["assessments", "Assessments", "⚡"],
-    ["analytics", "Analytics", "📈"], ["settings", "Settings", "⚙️"],
+    ["overview", "Overview"], ["orgs", "Organizations"],
+    ["individuals", "Individuals"], ["assessments", "Assessments"],
+    ["analytics", "Analytics"], ["settings", "Settings"],
   ];
 
   // derived counts
@@ -366,28 +366,28 @@ export function AdminPanel({ toast }) {
 
       {/* Tab bar */}
       <div style={{ display: "flex", gap: 4, marginBottom: 24, background: T.white, border: `1px solid ${T.border}`, borderRadius: 12, padding: 6, flexWrap: "wrap" }}>
-        {TABS.map(([id, label, icon]) => (
+        {TABS.map(([id, label]) => (
           <button key={id} onClick={() => setTab(id)}
             style={{ display: "flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 8, border: "none", background: tab === id ? T.green : "transparent", color: tab === id ? T.white : T.muted, fontSize: 13, fontWeight: tab === id ? 600 : 400, cursor: "pointer" }}>
-            {icon} {label}
+            {label}
           </button>
         ))}
       </div>
 
-      {/* ── OVERVIEW ── */}
+      {/*  OVERVIEW  */}
       {tab === "overview" && (
         <div>
           <div style={{ marginBottom: 22 }}>
-            <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, color: T.green, marginBottom: 4 }}>Welcome back, Susan 👋</h1>
+            <h1 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, color: T.green, marginBottom: 4 }}>Welcome back, Susan </h1>
             <p style={{ color: T.muted, fontSize: 13 }}>Your Gut Intelligence® platform — live dashboard</p>
           </div>
 
           {/* KPI row */}
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 20 }}>
-            <StatCard label="Organizations" value={orgUsers.length} sub={`${orgAssessed.length} completed org GQ`} icon="🏢" />
-            <StatCard label="Individuals" value={individuals.length} sub={`${assessed.length} assessed`} icon="👤" />
-            <StatCard label="Avg GQ Score" value={avgGQ} sub={assessed.length ? `across ${assessed.length} assessments` : "no assessments yet"} icon="⚡" />
-            <StatCard label="Certifications" value={certified.length} sub="issued total" icon="🎓" />
+            <StatCard label="Organizations" value={orgUsers.length} sub={`${orgAssessed.length} completed org GQ`} icon="" />
+            <StatCard label="Individuals" value={individuals.length} sub={`${assessed.length} assessed`} icon="" />
+            <StatCard label="Avg GQ Score" value={avgGQ} sub={assessed.length ? `across ${assessed.length} assessments` : "no assessments yet"} icon="" />
+            <StatCard label="Certifications" value={certified.length} sub="issued total" icon="" />
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 16, marginBottom: 16 }}>
@@ -436,11 +436,11 @@ export function AdminPanel({ toast }) {
             <Card>
               <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 16 }}>Quick Actions</h3>
               {[
-                { label: "Add Individual", icon: "👤", action: () => setAddIndOpen(true) },
-                { label: "Add Organization", icon: "🏢", action: () => setAddOrgOpen(true) },
-                { label: "View Assessments", icon: "⚡", action: () => setTab("assessments") },
-                { label: "Export All Data", icon: "📥", action: () => toast("Exporting platform data…") },
-                { label: "Send Bulk Report", icon: "📧", action: () => toast("Bulk GQ report queued (demo)") },
+                { label: "Add Individual", icon: "", action: () => setAddIndOpen(true) },
+                { label: "Add Organization", icon: "", action: () => setAddOrgOpen(true) },
+                { label: "View Assessments", icon: "", action: () => setTab("assessments") },
+                { label: "Export All Data", icon: "", action: () => toast("Exporting platform data…") },
+                { label: "Send Bulk Report", icon: "", action: () => toast("Bulk GQ report queued (demo)") },
               ].map((a, i) => (
                 <button key={i} onClick={a.action}
                   style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 8, border: `1px solid ${T.border}`, background: T.white, marginBottom: 8, cursor: "pointer", textAlign: "left" }}>
@@ -463,7 +463,7 @@ export function AdminPanel({ toast }) {
             </div>
             {[...individuals, ...orgUsers].sort((a, b) => b.createdAt - a.createdAt).slice(0, 6).map((u, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderBottom: i < 5 ? `1px solid ${T.border}` : "none" }}>
-                <div style={{ width: 34, height: 34, borderRadius: "50%", background: u.role === "org" ? T.goldPale : T.ivoryDark, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, flexShrink: 0 }}>{u.role === "org" ? "🏢" : initials(u.name)}</div>
+                <div style={{ width: 34, height: 34, borderRadius: "50%", background: u.role === "org" ? T.goldPale : T.ivoryDark, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, flexShrink: 0 }}>{u.role === "org" ? "" : initials(u.name)}</div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: 13, fontWeight: 500 }}>{u.role === "org" ? (u.org || u.name) : u.name}</p>
                   <p style={{ fontSize: 11, color: T.muted }}>{u.email} · {fmtDate(u.createdAt)}</p>
@@ -476,7 +476,7 @@ export function AdminPanel({ toast }) {
         </div>
       )}
 
-      {/* ── ORGANIZATIONS ── */}
+      {/*  ORGANIZATIONS  */}
       {tab === "orgs" && (
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
@@ -495,7 +495,7 @@ export function AdminPanel({ toast }) {
 
           {filteredOrgs.length === 0 ? (
             <Card style={{ textAlign: "center", padding: "48px" }}>
-              <p style={{ fontSize: 40, marginBottom: 12 }}>🏢</p>
+              <p style={{ fontSize: 40, marginBottom: 12 }}></p>
               <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, color: T.green, marginBottom: 8 }}>No organizations yet</h3>
               <p style={{ fontSize: 14, color: T.muted, marginBottom: 20 }}>Add your first organization to get started.</p>
               <Btn onClick={() => setAddOrgOpen(true)}>+ Add Organization</Btn>
@@ -513,7 +513,7 @@ export function AdminPanel({ toast }) {
                     onMouseLeave={(e) => e.currentTarget.style.boxShadow = "none"}>
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 14 }}>
                       <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                        <div style={{ width: 40, height: 40, borderRadius: 10, background: T.goldPale, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>🏢</div>
+                        <div style={{ width: 40, height: 40, borderRadius: 10, background: T.goldPale, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}></div>
                         <div>
                           <p style={{ fontWeight: 600, fontSize: 15 }}>{u.org || u.name}</p>
                           <p style={{ fontSize: 11, color: T.muted }}>{u.members?.length ?? u.users ?? 0} users · {fmtDate(u.createdAt)}</p>
@@ -536,7 +536,7 @@ export function AdminPanel({ toast }) {
         </div>
       )}
 
-      {/* ── INDIVIDUALS ── */}
+      {/*  INDIVIDUALS  */}
       {tab === "individuals" && (
         <div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
@@ -561,7 +561,7 @@ export function AdminPanel({ toast }) {
 
           {filteredInd.length === 0 ? (
             <Card style={{ textAlign: "center", padding: "48px" }}>
-              <p style={{ fontSize: 40, marginBottom: 12 }}>👤</p>
+              <p style={{ fontSize: 40, marginBottom: 12 }}></p>
               <h3 style={{ fontFamily: "'Playfair Display',serif", fontSize: 18, color: T.green, marginBottom: 8 }}>No individuals found</h3>
               <Btn onClick={() => setAddIndOpen(true)}>+ Add Individual</Btn>
             </Card>
@@ -587,7 +587,7 @@ export function AdminPanel({ toast }) {
                     <div><p style={{ fontSize: 12 }}>{u.jobTitle || u.role || "—"}</p><p style={{ fontSize: 11, color: T.muted }}>{u.org || "—"}</p></div>
                     <div>
                       <Badge label={u.status || "active"} color={u.status === "invited" ? T.gold : u.status === "inactive" ? T.muted : T.success} bg={u.status === "invited" ? T.goldPale : u.status === "inactive" ? T.ivoryDark : "#E8F4EE"} />
-                      {u.certified && <div style={{ marginTop: 4 }}><Badge label="Certified 🎓" color={T.green} bg={T.goldPale} /></div>}
+                      {u.certified && <div style={{ marginTop: 4 }}><Badge label="Certified " color={T.green} bg={T.goldPale} /></div>}
                     </div>
                     <div>
                       {score !== null ? (
@@ -611,17 +611,17 @@ export function AdminPanel({ toast }) {
         </div>
       )}
 
-      {/* ── ASSESSMENTS ── */}
+      {/*  ASSESSMENTS  */}
       {tab === "assessments" && (
         <div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, color: T.green, marginBottom: 4 }}>Assessments</h2>
           <p style={{ fontSize: 13, color: T.muted, marginBottom: 20 }}>All GQ assessment results across individuals and organizations</p>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 20 }}>
-            <StatCard label="Ind. Assessments" value={assessed.length} sub={`of ${individuals.length} total`} icon="⚡" />
-            <StatCard label="Org Assessments" value={orgAssessed.length} sub={`of ${orgUsers.length} orgs`} icon="🏢" />
-            <StatCard label="Avg Individual GQ" value={avgGQ} sub="across all scores" icon="📊" />
-            <StatCard label="Cheetah Achievers" value={assessed.filter(u => (u.gq?.overall ?? u.gqScore) >= 85).length} sub="score ≥ 85" icon="🐆" />
+            <StatCard label="Ind. Assessments" value={assessed.length} sub={`of ${individuals.length} total`} icon="" />
+            <StatCard label="Org Assessments" value={orgAssessed.length} sub={`of ${orgUsers.length} orgs`} icon="" />
+            <StatCard label="Avg Individual GQ" value={avgGQ} sub="across all scores" icon="" />
+            <StatCard label="Cheetah Achievers" value={assessed.filter(u => (u.gq?.overall ?? u.gqScore) >= 85).length} sub="score ≥ 85" icon="" />
           </div>
 
           {/* Individual results table */}
@@ -643,7 +643,7 @@ export function AdminPanel({ toast }) {
                       </div>
                       {u.gq?.byCenter && (
                         <div style={{ display: "flex", gap: 16 }}>
-                          {[["🧭", "gut"], ["💚", "heart"], ["🧠", "head"], ["✨", "intuition"]].map(([ic, k]) => (
+                          {[["", "gut"], ["", "heart"], ["", "head"], ["", "intuition"]].map(([ic, k]) => (
                             <span key={k} style={{ fontSize: 11, color: T.muted }}>{ic} {u.gq.byCenter[k]}</span>
                           ))}
                         </div>
@@ -667,7 +667,7 @@ export function AdminPanel({ toast }) {
                 const band = orgGQBand(score);
                 return (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, padding: "12px 0", borderBottom: i < orgAssessed.length - 1 ? `1px solid ${T.border}` : "none" }}>
-                    <div style={{ width: 32, height: 32, borderRadius: 8, background: T.goldPale, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>🏢</div>
+                    <div style={{ width: 32, height: 32, borderRadius: 8, background: T.goldPale, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}></div>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
                         <p style={{ fontSize: 13, fontWeight: 500 }}>{u.org || u.name}</p>
@@ -690,16 +690,16 @@ export function AdminPanel({ toast }) {
         </div>
       )}
 
-      {/* ── ANALYTICS ── */}
+      {/*  ANALYTICS  */}
       {tab === "analytics" && (
         <div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, color: T.green, marginBottom: 4 }}>Analytics</h2>
           <p style={{ fontSize: 13, color: T.muted, marginBottom: 20 }}>Platform-wide performance metrics</p>
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 20 }}>
-            <StatCard label="Total Sessions" value="1,284" sub="this quarter" icon="🧠" />
-            <StatCard label="Completion Rate" value="78%" sub="↑ 6% vs last Q" icon="✅" />
-            <StatCard label="Avg Sessions/User" value="8.7" sub="target: 10" icon="🔄" />
-            <StatCard label="NPS Score" value="72" sub="excellent" icon="⭐" />
+            <StatCard label="Total Sessions" value="1,284" sub="this quarter" icon="" />
+            <StatCard label="Completion Rate" value="78%" sub="↑ 6% vs last Q" icon="" />
+            <StatCard label="Avg Sessions/User" value="8.7" sub="target: 10" icon="" />
+            <StatCard label="NPS Score" value="72" sub="excellent" icon="" />
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 16 }}>
             <Card>
@@ -743,19 +743,19 @@ export function AdminPanel({ toast }) {
         </div>
       )}
 
-      {/* ── SETTINGS ── */}
+      {/*  SETTINGS  */}
       {tab === "settings" && (
         <div>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 22, color: T.green, marginBottom: 4 }}>Platform Settings</h2>
           <p style={{ fontSize: 13, color: T.muted, marginBottom: 20 }}>Configure your GQ Platform</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             {[
-              { title: "Notification Preferences", desc: "Email alerts when new users register or complete assessments", action: "Configure", icon: "🔔" },
-              { title: "License Management", desc: "View and upgrade organization licenses", action: "Manage Licenses", icon: "📋" },
-              { title: "Certification Tracks", desc: "Edit GQ certification requirements and criteria", action: "Edit Tracks", icon: "🎓" },
-              { title: "Assessment Questions", desc: "Review and update individual & organizational GQ questions", action: "Review Questions", icon: "⚡" },
-              { title: "Brand & Content", desc: "Update platform branding, copy, and Susan's featured content", action: "Edit Content", icon: "✏️" },
-              { title: "Export Platform Data", desc: "Download all users, scores, and activity as CSV", action: "Export CSV", icon: "📥" },
+              { title: "Notification Preferences", desc: "Email alerts when new users register or complete assessments", action: "Configure", icon: "" },
+              { title: "License Management", desc: "View and upgrade organization licenses", action: "Manage Licenses", icon: "" },
+              { title: "Certification Tracks", desc: "Edit GQ certification requirements and criteria", action: "Edit Tracks", icon: "" },
+              { title: "Assessment Questions", desc: "Review and update individual & organizational GQ questions", action: "Review Questions", icon: "" },
+              { title: "Brand & Content", desc: "Update platform branding, copy, and Susan's featured content", action: "Edit Content", icon: "" },
+              { title: "Export Platform Data", desc: "Download all users, scores, and activity as CSV", action: "Export CSV", icon: "" },
             ].map((s, i) => (
               <Card key={i} style={{ display: "flex", alignItems: "center", gap: 16 }}>
                 <div style={{ width: 44, height: 44, borderRadius: 10, background: T.goldPale, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0 }}>{s.icon}</div>

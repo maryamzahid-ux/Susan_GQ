@@ -126,7 +126,7 @@ function Results({ result, onComplete }) {
                   <span style={{ fontSize: 16, fontWeight: 700, color }}>{s}</span>
                 </div>
                 <ProgressBar pct={s} color={color} />
-                {s < 60 && <p style={{ fontSize: 11, color: "#C0392B", marginTop: 5 }}>⚠ Priority area</p>}
+                {s < 60 && <p style={{ fontSize: 11, color: "#C0392B", marginTop: 5 }}> Priority area</p>}
               </div>
             );
           })}
